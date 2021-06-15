@@ -1,2 +1,2 @@
 #!/bin/bash
-solcjs Call.sol CallSale.sol IERC165.sol IERC20.sol IERC721.sol IERC721Receiver.sol Put.sol --bin
+solcjs Call.sol CallSale.sol IERC165.sol IERC20.sol IERC721.sol IERC721Receiver.sol Put.sol PutSale.sol --bin
