@@ -27,15 +27,23 @@ contract CallSale {
     _token = token_;
     _salePrice = salePrice_;
     _sold = false;
-    IERC721(_tokenContract).safeTransferFrom(tokenOwner_, address(this), token_);
+  }
+
+  function funded() internal view returns (bool) {
+    return IERC721(_tokenContract).ownerOf(_token) == address(this);
   }
 
   function buy() external returns (address) {
+    require(funded(), "Contract must already be funded");
     require(!_sold, "Contract must not be already sold");
     IERC20(_currencyOfSale).transferFrom(msg.sender, address(this), _salePrice);
     Call option = new Call(_currencyOfContract, _tokenContract, msg.sender, _tokenOwner, _strikePrice, _expiration, _token);
     IERC721(_tokenContract).safeTransferFrom(address(this), address(option), _token);
     return address(option);
   }
-}
 
+  function withdraw() external {
+    require(msg.sender == _tokenOwner, "Only the token owner can withdraw");
+    IERC20(_currencyOfSale).transfer(_tokenOwner, IERC20(_currencyOfSale).balanceOf(address(this)));
+  }
+}
