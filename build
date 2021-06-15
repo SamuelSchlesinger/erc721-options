@@ -1,0 +1,2 @@
+#!/bin/bash
+solcjs Call.sol IERC165.sol IERC20.sol IERC721.sol IERC721Receiver.sol Put.sol --bin
